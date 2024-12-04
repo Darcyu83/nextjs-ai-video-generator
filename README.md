@@ -34,3 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+# nextjs-ai-video-generator
+
+[유튜브 URL](https://www.youtube.com/watch?v=eMplIjZ80Zs&list=PLaBeGKL1tOU3Gl_x2EzOMPPpAWq9znZWt&index=1)
+
+- npx shadcn@latest init
+
+- NEON : Postgre DB + drizzle ORM
+
+## configs : DB설정
+
+./configs/db.ts
+./configs/schema.ts
+./drizzle.config.ts
+
+### script 추가
+
+- "db:push": "drizzle-kit push" : 스키마 사이트에 적용
+- "db:studio": "drizzle-kit studio" 실행 후 표시되는 URL접속하면 스키마 및 데이터 조회 가능
