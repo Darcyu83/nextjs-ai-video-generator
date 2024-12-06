@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 // import localFont from "next/font/local";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import AuthProvider from "./authProvider";
 import { Outfit } from "next/font/google";
+import ClerkProviderContainer from "./clerkProvider";
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
 //   variable: "--font-geist-sans",
@@ -27,15 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          className={outfit.className}
-        >
+    <html lang="en">
+      <body
+        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={outfit.className}
+      >
+        <ClerkProviderContainer>
           <AuthProvider>{children}</AuthProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProviderContainer>
+      </body>
+    </html>
   );
 }
