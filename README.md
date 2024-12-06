@@ -53,3 +53,33 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 - "db:push": "drizzle-kit push" : 스키마 사이트에 적용
 - "db:studio": "drizzle-kit studio" 실행 후 표시되는 URL접속하면 스키마 및 데이터 조회 가능
+
+## Authentication
+
+사용자 관리
+
+Clerk 사이트 : 10,000건까지는 공짜
+
+next-auth ; 카카오 포함되므로 이걸 써야함.
+
+### 폰트 변경
+
+/app/layout.tsx
+
+### 컬러셋 설정 변경
+
+root folder ./tailwind.config.ts
+
+### 아이콘
+
+lucide icon
+
+- npm i lucide-react
+
+
+### 구글 제미니
+
+- ai.google.dev
+
+- 프롬프트 
+Write a script to generate 30 seconds video on topic : interesting historical story along with AI image prompt in Realistic format for each scene and give me result in JSON format with imagePrompt and Content Text as field.
