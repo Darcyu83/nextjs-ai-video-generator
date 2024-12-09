@@ -56,7 +56,7 @@ Google Cloud > console > text to speach
 
 ### audio mp3 저장 : Firebase
 
-### Speech to Text
+### Captions : Speech to Text
 
 Assembly AI
 
@@ -65,3 +65,9 @@ Assembly AI
   Free 50,000 video caption of 30sec video
   or
   Free 25,000 video caption of 60sec video
+
+### Image AI
+replicate.com
+
+bytedance/sdxl-lightning-4step 이미지 생성 AI 
+714건/1달러

@@ -1,3 +1,4 @@
+import { FIREBASE_STORAGE_NAME } from "@/app/(api)/constants";
 import { firebasestorage } from "@/configs/FirebaseConfig";
 import textToSpeech from "@google-cloud/text-to-speech";
 import { google } from "@google-cloud/text-to-speech/build/protos/protos";
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
 
   const firebaseStorageRef = ref(
     firebasestorage,
-    "nextjs-ai-video-files/" + id + ".mp3"
+    FIREBASE_STORAGE_NAME + id + ".mp3"
   );
   // Construct the request
   const request: SynthesizeSpeechRequest = {

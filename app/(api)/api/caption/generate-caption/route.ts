@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const transcript = await client.transcripts.transcribe(config);
     console.log(transcript.words);
 
-    return NextResponse.json({ result: transcript.text });
+    return NextResponse.json({ result: transcript.words });
   } catch (error) {
     return NextResponse.json({ error: error });
   }
