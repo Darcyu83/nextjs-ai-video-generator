@@ -67,7 +67,19 @@ Assembly AI
   Free 25,000 video caption of 60sec video
 
 ### Image AI
+
 replicate.com
 
-bytedance/sdxl-lightning-4step 이미지 생성 AI 
+bytedance/sdxl-lightning-4step 이미지 생성 AI
 714건/1달러
+
+### 비디오 + 오디오 재생
+
+// 프로젝트 생성부터
+
+- npx create-video@latest --next // remotion lib
+
+// 라이브러리 추가할 때
+
+- npm i --save-exact remotion@4.0.236 @remotion/cli@4.0.236
+- npm i @remotion/eslint-plugin

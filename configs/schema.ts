@@ -12,7 +12,7 @@ export const UsersTable = pgTable("users", {
 
 export const VideoDataTable = pgTable("videoData", {
   id: serial("id").primaryKey(),
-  videoScript: json("script").notNull(),
+  script: json("script").notNull(),
   audioFileUrl: varchar("audioFileUrl").notNull(),
   captions: json("captions").notNull(),
   imageList: varchar("imageList").array(),

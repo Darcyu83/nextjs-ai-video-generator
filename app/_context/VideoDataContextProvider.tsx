@@ -15,10 +15,25 @@ export interface VideoScript {
   imagePrompt: string;
 }
 
+const a = {
+  text: "The",
+  start: 280,
+  end: 416,
+  confidence: 0.99923,
+  speaker: null,
+};
+export interface CaptionProps {
+  text: string;
+  start: number;
+  end: number;
+  confidence: number;
+  speaker: null;
+}
+
 export interface VideoData {
   videoScript: VideoScript[];
   audioFileUrl: string;
-  captions: string[];
+  captions: CaptionProps[];
   imageList: string[];
 }
 

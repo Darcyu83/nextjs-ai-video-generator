@@ -15,6 +15,7 @@ import {
 import { db } from "@/configs/db";
 import { VideoDataTable } from "@/configs/schema";
 import { useUser } from "@clerk/nextjs";
+import PlayerDialog from "../_components/PlayerDialog";
 
 const imageUrls = [
   "https://firebasestorage.googleapis.com/v0/b/nextjs-ai-video-generato-24256.firebasestorage.app/o/nextjs-ai-video-files%2F1733729985313.png?alt=media&token=d3f69e3d-58d8-4152-8282-0048bb631cb0",
@@ -53,6 +54,9 @@ function CreateNewVideo(props: IProps) {
 
   const { videoData, setVideoDataParams } = useVideoDataContext();
   const { user } = useUser();
+
+  const [playVideo, setPlayVideo] = useState(true);
+  const [videoId, setVideoId] = useState<number>(282);
   const onHandleInputchange = (fieldName: string, fieldValue: string) => {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
   };
@@ -210,6 +214,10 @@ function CreateNewVideo(props: IProps) {
         })
         .returning({ id: VideoDataTable.id });
 
+      setVideoId(response[0].id);
+
+      setPlayVideo(true);
+
       console.log("db saved ==== ", response);
     } catch (error) {
       alert("Error:: DB saving " + error);
@@ -254,6 +262,8 @@ function CreateNewVideo(props: IProps) {
       </div>
 
       <CustomLoading loading={isLoading} />
+
+      <PlayerDialog playVideo={playVideo} videoId={videoId} />
     </div>
   );
 }
