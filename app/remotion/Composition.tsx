@@ -6,7 +6,7 @@ import {
   Sequence,
   useCurrentFrame,
 } from "remotion";
-import { VideoDataTbColumns } from "../(pages)/dashboard/_components/PlayerDialog";
+import { VideoDataTbColumns } from "../(pages)/dashboard/_types/types";
 
 interface IProps extends VideoDataTbColumns {
   setDurationInFrame: (frameValue: number) => void;

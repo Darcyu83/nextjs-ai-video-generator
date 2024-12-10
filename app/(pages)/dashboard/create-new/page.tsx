@@ -55,8 +55,8 @@ function CreateNewVideo(props: IProps) {
   const { videoData, setVideoDataParams } = useVideoDataContext();
   const { user } = useUser();
 
-  const [playVideo, setPlayVideo] = useState(true);
-  const [videoId, setVideoId] = useState<number>(282);
+  const [playVideo, setPlayVideo] = useState(false);
+  const [videoId, setVideoId] = useState<number>();
   const onHandleInputchange = (fieldName: string, fieldValue: string) => {
     setFormData((prev) => ({ ...prev, [fieldName]: fieldValue }));
   };

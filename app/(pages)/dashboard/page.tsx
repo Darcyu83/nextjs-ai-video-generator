@@ -1,12 +1,47 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EmptyState from "./_components/EmptyState";
 import Link from "next/link";
+import VideoList from "./_components/VideoList";
+import { db } from "@/configs/db";
+import { VideoDataTable } from "@/configs/schema";
+import { eq } from "drizzle-orm";
+import { useUser } from "@clerk/nextjs";
+import { VideoDataTbColumns } from "./_types/types";
+import { isValidVideoData } from "./_utils/utils";
 interface IProps {}
 
 function Dashboard(props: IProps) {
-  const [videoList, setVideoList] = useState([]);
+  const { user } = useUser();
+
+  const [videoList, setVideoList] = useState<VideoDataTbColumns[]>([]);
+
+  const getVideoList = async () => {
+    if (!user?.primaryEmailAddress?.emailAddress) return;
+    const result = await db
+      .select()
+      .from(VideoDataTable)
+      .where(
+        eq(VideoDataTable.createdBy, user?.primaryEmailAddress?.emailAddress)
+      );
+
+    console.log("getVideoList === ", result);
+
+    const list: VideoDataTbColumns[] = [];
+    result.map((data) => {
+      if (isValidVideoData(data)) {
+        list.push(data);
+      }
+    });
+
+    setVideoList(list);
+  };
+
+  useEffect(() => {
+    user && getVideoList();
+  }, [user]);
+
   return (
     <div style={{}}>
       <div className="flex justify-between items-center">
@@ -21,6 +56,10 @@ function Dashboard(props: IProps) {
           <EmptyState />
         </div>
       )}
+
+      {/* List of Videos */}
+
+      <VideoList videoList={videoList} />
     </div>
   );
 }

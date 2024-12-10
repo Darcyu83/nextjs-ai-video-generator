@@ -13,26 +13,24 @@ import { VideoDataTable } from "@/configs/schema";
 
 import { Player } from "@remotion/player";
 import { eq } from "drizzle-orm";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { VideoDataTbColumns } from "../_types/types";
+import { isValidVideoData } from "../_utils/utils";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   playVideo: boolean;
   videoId?: number;
+  setOpenPlayerDialog?: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface VideoDataTbColumns {
-  id: number;
-  script: VideoData["videoScript"];
-  audioFileUrl: string;
-  captions: VideoData["captions"];
-  imageList: string[] | null;
-  createdBy: string;
-}
-
-function PlayerDialog({ playVideo, videoId }: IProps) {
+function PlayerDialog({ playVideo, videoId, setOpenPlayerDialog }: IProps) {
   const [openDialog, setOpenDialog] = useState(false);
   const [videoData, setVideoData] = useState<VideoDataTbColumns>();
   const [durationInFrame, setDurationInFrame] = useState(100);
+
+  const router = useRouter();
+
   useEffect(() => {
     setOpenDialog(playVideo);
     videoId && getVideoData();
@@ -46,16 +44,6 @@ function PlayerDialog({ playVideo, videoId }: IProps) {
       .where(eq(VideoDataTable.id, videoId));
 
     console.log("getVideoData result ==== ", result, videoId);
-
-    const isValidVideoData = (data: any): data is VideoDataTbColumns => {
-      return (
-        Array.isArray(data.captions) &&
-        Array.isArray(data.script) &&
-        typeof data.audioFileUrl === "string" &&
-        (data.imageList === null || Array.isArray(data.imageList)) &&
-        typeof data.createdBy === "string"
-      );
-    };
 
     if (isValidVideoData(result[0])) {
       setVideoData(result[0]);
@@ -100,7 +88,12 @@ function PlayerDialog({ playVideo, videoId }: IProps) {
   }, [videoData]);
 
   return (
-    <Dialog open={openDialog}>
+    <Dialog
+      open={openDialog}
+      onOpenChange={(e) => {
+        setOpenPlayerDialog && setOpenPlayerDialog(e);
+      }}
+    >
       {/* <DialogTrigger>Open</DialogTrigger> */}
       <DialogContent className="flex flex-col items-center ">
         <DialogHeader>
@@ -121,7 +114,15 @@ function PlayerDialog({ playVideo, videoId }: IProps) {
           )}
 
           <div className="flex gap-10 justify-center mt-10">
-            <Button variant={"ghost"}>Cancel</Button>
+            <Button
+              variant={"ghost"}
+              onClick={() => {
+                router.replace("/dashboard");
+                setOpenPlayerDialog && setOpenPlayerDialog(false);
+              }}
+            >
+              Cancel
+            </Button>
             <Button>Export</Button>
           </div>
         </DialogHeader>
