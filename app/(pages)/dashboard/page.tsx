@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import EmptyState from "./_components/EmptyState";
 import Link from "next/link";
-
 interface IProps {}
 
 function Dashboard(props: IProps) {

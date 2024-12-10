@@ -13,7 +13,7 @@ import { VideoDataTable } from "@/configs/schema";
 
 import { Player } from "@remotion/player";
 import { eq } from "drizzle-orm";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface IProps {
   playVideo: boolean;
@@ -32,7 +32,7 @@ export interface VideoDataTbColumns {
 function PlayerDialog({ playVideo, videoId }: IProps) {
   const [openDialog, setOpenDialog] = useState(false);
   const [videoData, setVideoData] = useState<VideoDataTbColumns>();
-
+  const [durationInFrame, setDurationInFrame] = useState(100);
   useEffect(() => {
     setOpenDialog(playVideo);
     videoId && getVideoData();
@@ -57,8 +57,47 @@ function PlayerDialog({ playVideo, videoId }: IProps) {
       );
     };
 
-    if (isValidVideoData(result[0])) setVideoData(result[0]);
+    if (isValidVideoData(result[0])) {
+      setVideoData(result[0]);
+    }
   };
+
+  const getDurationFrame = (captions: VideoData["captions"], fps: number) => {
+    if (!captions) return 0;
+
+    console.log(
+      "getDurationFrame ==== ",
+      captions,
+      captions.length - 1,
+      captions[captions.length - 1]
+    );
+    const frame = (captions[captions.length - 1].end / 1000) * fps;
+    return frame;
+  };
+
+  const {
+    durationInFrames,
+    compositionWidth,
+    compositionHeight,
+    controls,
+    fps,
+  } = useMemo(() => {
+    const videoPlayerConfig = {
+      durationInFrames: 120,
+      compositionWidth: 300,
+      compositionHeight: 450,
+      controls: true,
+      fps: 30,
+    };
+
+    if (videoData?.captions) {
+      videoPlayerConfig.durationInFrames = Math.floor(
+        getDurationFrame(videoData.captions, videoPlayerConfig.fps)
+      );
+    }
+
+    return videoPlayerConfig;
+  }, [videoData]);
 
   return (
     <Dialog open={openDialog}>
@@ -68,24 +107,23 @@ function PlayerDialog({ playVideo, videoId }: IProps) {
           <DialogTitle className="text-3xl font-bold my-5">
             Your video is ready
           </DialogTitle>
-          <DialogDescription>
-
-            
+          <DialogDescription>AABVB {durationInFrames}</DialogDescription>
+          {videoData && (
             <Player
               component={RemotionVideo}
-              durationInFrames={120}
-              compositionWidth={300}
-              compositionHeight={450}
-              fps={60}
-              controls={true}
+              durationInFrames={durationInFrames}
+              compositionWidth={compositionWidth}
+              compositionHeight={compositionHeight}
+              fps={fps}
+              controls={controls}
               inputProps={{ ...videoData }}
             />
+          )}
 
-            <div className="flex gap-10 justify-center">
-              <Button variant={"ghost"}>Cancel</Button>
-              <Button>Export</Button>
-            </div>
-          </DialogDescription>
+          <div className="flex gap-10 justify-center mt-10">
+            <Button variant={"ghost"}>Cancel</Button>
+            <Button>Export</Button>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

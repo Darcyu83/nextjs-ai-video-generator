@@ -208,7 +208,7 @@ function CreateNewVideo(props: IProps) {
         .values({
           audioFileUrl: videoData.audioFileUrl,
           captions: videoData.captions,
-          videoScript: videoData.videoScript,
+          script: videoData.videoScript,
           imageList: videoData.imageList,
           createdBy: userEmail,
         })
