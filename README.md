@@ -32,6 +32,10 @@ next-auth ; 카카오 포함되므로 이걸 써야함.
 ### 컬러셋 설정 변경
 
 root folder ./tailwind.config.ts
+(shadcn init 하면 기본컬러 설정값 셋팅됨.
+/tailwind.config.ts
+/app/global.css
+)
 
 ### 아이콘
 
